@@ -12,7 +12,7 @@
 
 #include <iostream>
 
-std::string	upper(std::string s)
+std::string	ft_upper(std::string s)
 {
 	size_t	i;
 
@@ -21,6 +21,7 @@ std::string	upper(std::string s)
 	{
 		if ('a' <= s[i] && s[i] <= 'z')
 			s[i] -= 32;
+		i++;
 	}
 	return (s);
 }
@@ -38,7 +39,7 @@ int main(int ac, char **av)
 	while (i < ac)
 	{
 		s = av[i];
-		s = upper(s);
+		s = ft_upper(s);
 		std::cout << s;
 		if (i == ac - 1)
 			std::cout << std::endl;
