@@ -6,13 +6,13 @@
 /*   By: dvauthey <dvauthey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:44:16 by dvauthey          #+#    #+#             */
-/*   Updated: 2025/04/09 23:04:11 by dvauthey         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:47:42 by dvauthey         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include <iostream>
 
-std::string	ft_upper(std::string s)
+static std::string	ft_upper(std::string s)
 {
 	size_t	i;
 
