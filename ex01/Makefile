@@ -1,5 +1,5 @@
-NAME	=	megaphone	
-SRCS	=	PhoneBook.cpp Contact.cpp
+NAME	=	phonebook
+SRCS	=	main.cpp PhoneBook.cpp Contact.cpp
 OBJS	=	${SRCS:.cpp=.o}
 CC		=	c++
 CFLAGS	=	-Werror -Wextra -Wall -std=c++98
@@ -36,7 +36,7 @@ ${NAME}:	${OBJS}
 	@${CC} ${CFLAGS} -c -o $@ $<
 
 clean:
-	@rm -rf ${OBJDIR}
+	@rm -f ${OBJS}
 
 fclean: clean
 	@rm -f ${NAME}

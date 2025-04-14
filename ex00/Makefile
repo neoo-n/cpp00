@@ -36,7 +36,7 @@ ${NAME}:	${OBJS}
 	@${CC} ${CFLAGS} -c -o $@ $<
 
 clean:
-	@rm -rf ${OBJDIR}
+	@rm -f ${OBJS}
 
 fclean: clean
 	@rm -f ${NAME}

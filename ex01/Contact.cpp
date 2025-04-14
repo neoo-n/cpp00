@@ -6,15 +6,14 @@
 /*   By: dvauthey <dvauthey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:54:57 by dvauthey          #+#    #+#             */
-/*   Updated: 2025/04/14 11:35:31 by dvauthey         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:24:12 by dvauthey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Contact.hpp"
 
-int			Contact::getIndex()
+Contact::Contact()
 {
-	return (index);
 }
 
 std::string	Contact::getF_name()
@@ -42,10 +41,6 @@ std::string	Contact::getSecret()
 	return (secret);
 }
 
-void		Contact::setIndex(int n_index)
-{
-	index = n_index;
-}
 void		Contact::setF_name(std::string n_fname)
 {
 	f_name = n_fname;
