@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   PhoneBook.cpp                                      :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: dvauthey <dvauthey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:39 by dvauthey          #+#    #+#             */
-/*   Updated: 2025/04/14 16:40:29 by dvauthey         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:25:48 by dvauthey         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "PhoneBook.hpp"
 
@@ -17,31 +17,62 @@ PhoneBook::PhoneBook()
 {
 }
 
-int		PhoneBook::getNb()
+int			PhoneBook::getNb()
 {
 	return (nb);
 }
 
-void	PhoneBook::setNb(int n_nb)
+void		PhoneBook::setNb(int n_nb)
 {
 	nb = n_nb;
 }
 
-std::string	get_info(std::string message)
+static int	not_number(std::string s, std::string message)
+{
+	size_t	i;
+
+	i = 0;
+	if (message.compare("number"))
+		return (0);
+	while (i < s.size())
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static std::string	get_info(std::string message)
 {
 	std::string	temp;
 
 	std::cout << "Enter the "<< message <<" : ";
-	std::cin >> temp;
-	while (temp.empty())
+	std::getline(std::cin, temp);
+	if (std::cin.eof())
 	{
-		std::cout << "This " << message << " is empty, please try again : ";
-		std::cin >> temp;
+		std::cout << "End of program." << std::endl;
+		exit (2);
+	}
+	while (not_number(temp, message) || std::cin.fail() || temp.empty())
+	{
+		if (std::cin.fail())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		std::cout << "This " << message << " is not valid, please try again : ";
+		std::getline(std::cin, temp);
+		if (std::cin.eof())
+		{
+			std::cout << "End of program." << std::endl;
+			exit (3);
+		}
 	}
 	return (temp);
 }
 
-void	PhoneBook::add(int i)
+void		PhoneBook::add(int i)
 {
 	std::string	temp;
 
@@ -55,10 +86,11 @@ void	PhoneBook::add(int i)
 	tab[i].setNumber(temp);
 	temp = get_info("darkest secret");
 	tab[i].setSecret(temp);
-	nb = i + 1;
+	if (nb < 8)
+		nb++;
 }
 
-std::string	verif_len(std::string s)
+static std::string	verif_len(std::string s)
 {
 	if (s.size() > 10)
 	{
@@ -68,31 +100,19 @@ std::string	verif_len(std::string s)
 	return (s);
 }
 
-void	PhoneBook::search()
+static void		get_index(Contact tab[], int nb)
 {
-	int			i;
-	int			index;
+	int 		index;
 	std::string	temp;
 
-	i = 0;
-	index = 0;
-	if (nb == 0)
-		return ;
-	while (i < nb)
-	{
-		std::cout << i + 1 << " | ";
-		temp = verif_len(tab[i].getF_name());
-		std::cout << temp << " | ";
-		temp = verif_len(tab[i].getL_name());
-		std::cout << temp << " | ";
-		temp = verif_len(tab[i].getNickname());
-		std::cout << temp << std::endl;
-		i++;
-	}
 	std::cout << "Enter an index : ";
-	std::cin >> index;
-	if (index < 1 || index > nb)
-		std::cout << "Error : this is not a valid index" << std::endl;
+	std::getline(std::cin, temp);
+	if (cin_error(4))
+		return ;
+	if (temp.size() == 1)
+		index = temp[0] - '0';
+	if (temp.size() != 1 || index < 1 || index > nb)
+		std::cout << "Error : this is not a valid index." << std::endl;
 	else
 	{
 		std::cout << "First name : " << tab[index - 1].getF_name() << std::endl;
@@ -101,4 +121,29 @@ void	PhoneBook::search()
 		std::cout << "Phone number : " << tab[index - 1].getNumber() << std::endl;
 		std::cout << "Darkest secret : " << tab[index - 1].getSecret() << std::endl;
 	}
+}
+
+void		PhoneBook::search()
+{
+	int			i;
+	std::string	temp;
+
+	i = 0;
+	if (nb == 0)
+	{
+		std::cout << "There is no contact saved." << std::endl;
+		return ;
+	}
+	while (i < nb)
+	{
+		std::cout << std::setw(10) << i + 1 << " | ";
+		temp = verif_len(tab[i].getF_name());
+		std::cout << std::setw(10) << temp << " | ";
+		temp = verif_len(tab[i].getL_name());
+		std::cout << std::setw(10) << temp << " | ";
+		temp = verif_len(tab[i].getNickname());
+		std::cout << std::setw(10) << temp << std::endl;
+		i++;
+	}
+	get_index(tab, nb);
 }
